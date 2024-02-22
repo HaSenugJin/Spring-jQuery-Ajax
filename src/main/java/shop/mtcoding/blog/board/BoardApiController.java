@@ -3,18 +3,28 @@ package shop.mtcoding.blog.board;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 public class BoardApiController {
+    // 자바 스크립트 요청은 페이지를 하면 안되고 JSON을 해야함
+
 
     private final  BoardRepository boardRepository;
+
+    
+
+    @PostMapping("/api/boards")
+    // @RequestBody = JSON데이터를 받을 수 있음
+    public ApiUtil<?> write(@RequestBody BoardRequest.WriteDTO boardRequest) {
+
+        boardRepository.insert(boardRequest);
+
+        return new ApiUtil<>(null);
+    }
 
     @DeleteMapping("/api/boards/{id}")
     public ApiUtil<?> deleteById(@PathVariable Integer id, HttpServletResponse response) {
