@@ -15,7 +15,13 @@ public class BoardApiController {
 
     private final  BoardRepository boardRepository;
 
-    
+    @PutMapping("/api/boards/{id}")
+    public ApiUtil<?> update(HttpServletRequest request, @PathVariable Integer id, @RequestBody BoardRequest.UpdateDTO boardRequest) {
+        boardRepository.update(boardRequest, id);
+        request.setAttribute("id", id);
+        System.out.println(boardRequest);
+        return new ApiUtil<>(null);
+    }
 
     @PostMapping("/api/boards")
     // @RequestBody = JSON데이터를 받을 수 있음

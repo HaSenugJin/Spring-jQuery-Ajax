@@ -14,10 +14,32 @@
                 <div class="mb-3">
                     <textarea class="form-control" rows="5" id="content"></textarea>
                 </div>
-                <button type="button" onclick="btnWrite()" class="btn btn-primary form-control">글수정완료</button>
+                <button type="button" onclick="btnUpdate()" class="btn btn-primary form-control">글수정완료</button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    function btnUpdate() {
+// 1. input태그의 값 들고오기
+        let board = {
+            title: $("#title").val(),
+            content: $("#content").val(),
+            author: $("#author").val()
+        };
+
+        $.ajax({
+            url: "/api/boards/{{id}}",
+            type: "put",
+            data: JSON.stringify(board),
+            contentType: "application/json; charset=utf-8"
+        }).done((res) => {
+            location.href = "/";
+        }).fail((res) => {
+            alert(res.responseJSON.msg);
+        });
+    }
+</script>
 
 {{> layout/footer}}
