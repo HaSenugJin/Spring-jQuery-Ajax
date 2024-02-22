@@ -17,6 +17,21 @@
             </tbody>
     </table>
     <script>
+        function del(boardId) {
+            // 인텔리J에 스니팻 설정 하는걸로 설정해서 쓰면 편하다
+            $.ajax({
+                url: `api/boards/${boardId}`,
+                type: "delete"
+            }).done((res) => {
+                $(`#board-${boardId}`).remove();
+            }).fail((res) => {
+                alert(res.responseJSON.msg);
+
+                // 새로고침
+                location.reload();
+            });
+        }
+
         $.ajax({
             url: "/api/boards",
             type: "get"
@@ -30,7 +45,6 @@
             });
         }).fail((res)=>{
             alert(res.responseJSON.msg);
-
         });
 
         function render(board) {
